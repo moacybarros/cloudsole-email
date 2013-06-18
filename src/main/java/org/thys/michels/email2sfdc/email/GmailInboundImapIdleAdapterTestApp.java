@@ -22,21 +22,26 @@ import org.springframework.integration.Message;
 import org.springframework.integration.MessagingException;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageHandler;
+import org.thys.michels.email2sfdc.util.ParseEmail;
 
 /**
  * @author Oleg Zhurakousky
  *
  */
 public class GmailInboundImapIdleAdapterTestApp {
+	
 	private static Logger logger = Logger.getLogger(GmailInboundImapIdleAdapterTestApp.class);
-
-
 	public static void main (String[] args) throws Exception {
-		ApplicationContext ac = new ClassPathXmlApplicationContext("/META-INF/spring/integration/gmail-imap-idle-config.xml");
-		DirectChannel inputChannel = ac.getBean("recieveChannel", DirectChannel.class);
+		ApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/integration/gmail-imap-idle-config.xml");
+		
+		final ParseEmail parseEmailMessage = new ParseEmail();
+		
+		DirectChannel inputChannel = context.getBean("inputChannel", DirectChannel.class);
 		inputChannel.subscribe(new MessageHandler() {
 			public void handleMessage(Message<?> message) throws MessagingException {
-				logger.info("Message: " + message.getPayload());
+				//logger.info("Message: " + message);
+				parseEmailMessage.printMessage(parseEmailMessage.getEmailMessage(message));
+				
 			}
 		});
 	}
