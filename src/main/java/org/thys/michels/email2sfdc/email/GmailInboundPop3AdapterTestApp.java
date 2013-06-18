@@ -36,7 +36,7 @@ public class GmailInboundPop3AdapterTestApp {
 		DirectChannel inputChannel = ac.getBean("receiveChannel", DirectChannel.class);
 		inputChannel.subscribe(new MessageHandler() {
 			public void handleMessage(Message<?> message) throws MessagingException {
-				logger.info("Message: " + message.getPayload());
+				logger.info("Message: " + message.getPayload() + " " + message.getHeaders());
 			}
 		});
 	}

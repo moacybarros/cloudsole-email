@@ -36,7 +36,7 @@ public class GmailInboundImapIdleAdapterTestApp {
 		DirectChannel inputChannel = ac.getBean("recieveChannel", DirectChannel.class);
 		inputChannel.subscribe(new MessageHandler() {
 			public void handleMessage(Message<?> message) throws MessagingException {
-				logger.info("Message: " + message);
+				logger.info("Message: " + message.getPayload());
 			}
 		});
 	}
